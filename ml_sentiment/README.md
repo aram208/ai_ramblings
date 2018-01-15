@@ -92,7 +92,7 @@ In essense, we are creating a table where each column is going to represent a un
 ```python
 from sklearn.feature_extraction.text import CountVectorizer
 
-count_vectorizer = CountVectorizer(max_features = 1500)
+count_vectorizer = CountVectorizer(max_features = 1000)
 X = count_vectorizer.fit_transform(corpus).toarray()
 y = dataset.iloc[:, 1].values
 ```
