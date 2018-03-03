@@ -1,5 +1,5 @@
 source activate virtual_platform
-cd cd Projects/AI/shared/ai_ramblings/haar_cascade_training/
+cd Projects/AI/shared/ai_ramblings/haar_cascade_training/
 
 # run the get raw images to download the negatives
 
