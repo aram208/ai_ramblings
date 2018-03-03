@@ -4,7 +4,7 @@ import cv2
 from matplotlib import pyplot as plt
 import numpy as np
 
-img = cv2.imread('originals/3.jpg', cv2.IMREAD_GRAYSCALE)
+img = cv2.imread('../originals/3.jpg', cv2.IMREAD_GRAYSCALE)
 
 # BEGIN_FIXED------------------------------------------------------------------
 ret,thresh = cv2.threshold(img, 80, 255, cv2.THRESH_TOZERO)
@@ -28,12 +28,12 @@ for cnt in contours:
         print("idx: " + str(i) + " area: " + str(area))
         largeContours.append(cnt)
         i += 1
-img_colored = cv2.imread('originals/3.jpg', cv2.IMREAD_COLOR )
+img_colored = cv2.imread('../originals/3.jpg', cv2.IMREAD_COLOR )
 cv2.drawContours(img_colored, largeContours, -1, (0, 255, 0), 5)
 cv2.imwrite("3_contour_i.jpg", img_colored)
 
 # bounding rect
-green_contoured_image = cv2.imread('originals/3.jpg', cv2.IMREAD_COLOR)
+green_contoured_image = cv2.imread('../originals/3.jpg', cv2.IMREAD_COLOR)
 for cnt in contours:
     area = cv2.contourArea(cnt)
     if area > 3000 :
@@ -42,7 +42,7 @@ for cnt in contours:
 cv2.imwrite("3_contour_j.jpg", green_contoured_image)
 
 # min area rect (for tilted books)
-orig_image = cv2.imread('originals/3.jpg', cv2.IMREAD_COLOR)
+orig_image = cv2.imread('../originals/3.jpg', cv2.IMREAD_COLOR)
 for cnt in contours:
     area = cv2.contourArea(cnt)
     if area > 3000 :
@@ -52,6 +52,3 @@ for cnt in contours:
         cv2.drawContours(orig_image,[box],0,(0,255,0),5)
 cv2.imwrite("3_contour_k.jpg", orig_image)
 # -----------------------------------------------------------------------------
-
-
-
