@@ -16,8 +16,9 @@ im2,contours,hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPRO
 
 cv2.imwrite("3_contour_a.jpg", im2)
 # END_FIXED--------------------------------------------------------------------
-cv2.drawContours(img, contours, -1, (0, 255, 0), 5)
-cv2.imwrite("3_contour_b.jpg", img)
+image1 = cv2.imread('originals/3.jpg', cv2.IMREAD_COLOR)
+cv2.drawContours(image1, contours, -1, (0, 255, 0), 5)
+cv2.imwrite("3_contour_b.jpg", image1)
 
 i = 0
 largeContours = []
@@ -31,6 +32,7 @@ img_colored = cv2.imread('originals/3.jpg', cv2.IMREAD_COLOR )
 cv2.drawContours(img_colored, largeContours, -1, (0, 255, 0), 5)
 cv2.imwrite("3_contour_i.jpg", img_colored)
 
+# bounding rect
 green_contoured_image = cv2.imread('originals/3.jpg', cv2.IMREAD_COLOR)
 for cnt in contours:
     area = cv2.contourArea(cnt)
@@ -39,21 +41,17 @@ for cnt in contours:
         cv2.rectangle(green_contoured_image,(x,y),(x+w,y+h),(0,255,0),5)
 cv2.imwrite("3_contour_j.jpg", green_contoured_image)
 
+# min area rect (for tilted books)
+orig_image = cv2.imread('originals/3.jpg', cv2.IMREAD_COLOR)
+for cnt in contours:
+    area = cv2.contourArea(cnt)
+    if area > 3000 :
+        rect = cv2.minAreaRect(cnt)
+        box = cv2.boxPoints(rect)
+        box = np.int0(box)
+        cv2.drawContours(orig_image,[box],0,(0,255,0),5)
+cv2.imwrite("3_contour_k.jpg", orig_image)
 # -----------------------------------------------------------------------------
 
-
-#M = cv2.moments(cnt)
-#print( M )
-
-epsilon = 0.1 * cv2.arcLength(cnt, True)
-approx = cv2.approxPolyDP(cnt, epsilon, True)
-
-cv2.drawContours(im2, approx, -1, (0, 255, 0), 3)
-
-cv2.imshow("Contour", im2)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-
-cv2.imwrite("4_contour_a.jpg", im2)
 
 
