@@ -1,2 +1,6 @@
 **/.ipynb_checkpoints
+BookSpine/__pycache__
+BookSpine/ZoneMaintenance-master/*
 
+haar_cascade_training/info/*
+haar_cascade_training/negative_images/*
