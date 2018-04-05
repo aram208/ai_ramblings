@@ -71,9 +71,9 @@ def hough_lines(image, backgroundImage, outDir, threshold = 135):
     original = resize(original, width=1000)
     cdst = original.copy()
     if lines is not None:
-        for i in range(0, len(lines)):
-            rho = lines[i][0][0]
-            theta = lines[i][0][1]
+        for line in lines:
+            rho = line[0][0]
+            theta = line[0][1]
             
             # for vertical lines
             if theta > np.pi/180*170 or theta < np.pi/180*10 :
@@ -89,4 +89,62 @@ def hough_lines(image, backgroundImage, outDir, threshold = 135):
     
             
     cv2.imwrite(outDir + "hough_lines.jpg", cdst)
+    
+def hough_lines_new(image, backgroundImage, outDir, threshold = 135):
+    
+    lines = cv2.HoughLines(image = image, 
+                           rho = 1, 
+                           theta = np.pi / 180, 
+                           threshold = threshold)
+    
+    buckets = []
+    
+    original = resize(backgroundImage, width=1000)
+    cdst = original.copy()
+    if lines is not None:
+        for i in range(0, len(lines)):
+            rho = lines[i][0][0]
+            theta = lines[i][0][1]
+            
+            # for vertical lines
+            if theta > np.pi/180*170 or theta < np.pi/180*10 :
+                
+                # we know this line is relatively vertical, but let's see if it
+                # crosses any of the lines in the buckets. If yes, add to that bucket
+                for bucket in buckets:
+                    
+                
+                '''
+                a = math.cos(theta)
+                b = math.sin(theta)
+                x0 = a * rho
+                y0 = b * rho
+                pt1 = (int(x0 + 1000 * (-b)), int(y0 + 1000 * (a)))
+                pt2 = (int(x0 - 1000 * (-b)), int(y0 - 1000 * (a)))
+                cv2.line(cdst, pt1, pt2, (0, 255, 0), 2, cv2.LINE_AA)
+                '''
+    
+            
+    cv2.imwrite(outDir + "hough_lines.jpg", cdst)
+    
+    
+
+'''
+def lines_cross():
+    Point2f x = o2 - o1;
+    Point2f d1 = p1 - o1;
+    Point2f d2 = p2 - o2;
+
+    float cross = d1.x*d2.y - d1.y*d2.x;
+    if (abs(cross) < /*EPS*/1e-8)
+        return false;
+
+    double t1 = (x.x * d2.y - x.y * d2.x)/cross;
+    r = o1 + d1 * t1;
+    return true;
+'''    
+    
+    
+    
+    
     
