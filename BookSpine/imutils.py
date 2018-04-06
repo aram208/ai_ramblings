@@ -58,7 +58,7 @@ def resize(image, width = None, height = None, inter = cv2.INTER_AREA):
 	# return the resized image
 	return resized
 
-def hough_lines(image, backgroundImage, outDir, threshold = 135):
+def hough_lines(image, backgroundImage, mask_height = 1000, threshold = 135):
     
     #thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
     
@@ -81,15 +81,17 @@ def hough_lines(image, backgroundImage, outDir, threshold = 135):
                 b = math.sin(theta)
                 x0 = a * rho
                 y0 = b * rho
-                pt1 = (int(x0 + 1000 * (-b)), int(y0 + 1000 * (a)))
-                pt2 = (int(x0 - 1000 * (-b)), int(y0 - 1000 * (a)))
+                pt1 = (int(x0 + mask_height * (-b)), int(y0 + mask_height * (a)))
+                pt2 = (int(x0 - mask_height * (-b)), int(y0 - mask_height * (a)))
                 cv2.line(cdst, pt1, pt2, (0, 255, 0), 2, cv2.LINE_AA)
             # for horizontal lines	
             #if( theta>CV_PI/180*80 && theta<CV_PI/180*100)
     
             
-    cv2.imwrite(outDir + "hough_lines.jpg", cdst)
-    
+    #cv2.imwrite(outDir + "hough_lines.jpg", cdst)
+    return cdst
+
+'''    
 def hough_lines_new(image, backgroundImage, outDir, threshold = 135):
     
     lines = cv2.HoughLines(image = image, 
@@ -112,9 +114,8 @@ def hough_lines_new(image, backgroundImage, outDir, threshold = 135):
                 # we know this line is relatively vertical, but let's see if it
                 # crosses any of the lines in the buckets. If yes, add to that bucket
                 for bucket in buckets:
-                    
                 
-                '''
+                # ==============
                 a = math.cos(theta)
                 b = math.sin(theta)
                 x0 = a * rho
@@ -122,11 +123,11 @@ def hough_lines_new(image, backgroundImage, outDir, threshold = 135):
                 pt1 = (int(x0 + 1000 * (-b)), int(y0 + 1000 * (a)))
                 pt2 = (int(x0 - 1000 * (-b)), int(y0 - 1000 * (a)))
                 cv2.line(cdst, pt1, pt2, (0, 255, 0), 2, cv2.LINE_AA)
-                '''
+                # ===============
     
             
     cv2.imwrite(outDir + "hough_lines.jpg", cdst)
-    
+'''   
     
 
 '''

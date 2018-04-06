@@ -41,9 +41,9 @@ def do_segment_v4(filename, outDir):
     # Hough lines =================================================================
     image = cv2.imread(outDir + "x-sobel.jpg")
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    
-    imutils.hough_lines(gray, backgroundImage = filename, outDir = outDir, threshold = 200)
-    
+    # original threshold 200
+    final = imutils.hough_lines(gray, backgroundImage = filename, threshold = 200)
+    cv2.imwrite(outDir + "hough_lines.jpg", final)
     
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--inpDir", required = True, help = "Path to the input images folder")
