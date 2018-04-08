@@ -65,7 +65,7 @@ def intersection(line1, line2):
     b = np.array([[rho1], [rho2]])
     x0, y0 = np.linalg.solve(A, b)
     x0, y0 = int(np.round(x0)), int(np.round(y0))
-    # TODO: make sure to return only those intersection points which fall within the image boundaries 
+    # TODO: make sure to return only those intersection points which fall within the image boundaries around the center
     return [[x0, y0]]
 
 
