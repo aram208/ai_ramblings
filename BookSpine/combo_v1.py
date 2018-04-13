@@ -62,7 +62,7 @@ def do_segment_v1(filename, outDir):
     image = cv2.imread(outDir + "v1_contours.jpg")
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     
-    final = imutils.hough_lines(gray, backgroundImage = filename, threshold = 325)
+    final, _ = imutils.hough_lines(gray, backgroundImage = filename, threshold = 325)
     cv2.imwrite(outDir + "hough_lines.jpg", final)
 
 ap = argparse.ArgumentParser()

@@ -54,7 +54,7 @@ def do_segment_v5(filename, outDir):
     bimage = np.ones(gray.shape[:2], dtype='uint8')
     bimage = cv2.cvtColor(bimage, cv2.COLOR_GRAY2BGR)
     
-    final = imutils.hough_lines(gray, backgroundImage = filename, threshold = 200)
+    final, _ = imutils.hough_lines(gray, backgroundImage = filename, threshold = 200)
     cv2.imwrite(outDir + "hough_lines.jpg", final)
     
 ap = argparse.ArgumentParser()

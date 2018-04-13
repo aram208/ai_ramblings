@@ -89,7 +89,7 @@ def hough_lines(image, backgroundImage, mask_height = 1000, threshold = 135):
     
             
     #cv2.imwrite(outDir + "hough_lines.jpg", cdst)
-    return cdst
+    return cdst, lines
 
 '''    
 def hough_lines_new(image, backgroundImage, outDir, threshold = 135):

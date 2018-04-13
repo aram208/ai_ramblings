@@ -34,7 +34,7 @@ def do_segment_v3(filename, outDir):
     # Hough lines =================================================================
     image = cv2.imread(outDir + "canny.jpg")
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    final = imutils.hough_lines(gray, backgroundImage = filename, threshold = 150)
+    final, _ = imutils.hough_lines(gray, backgroundImage = filename, threshold = 150)
     cv2.imwrite(outDir + "hough_lines.jpg", final)
     
 ap = argparse.ArgumentParser()

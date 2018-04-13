@@ -56,17 +56,23 @@ def intersection(line1, line2):
     Returns closest integer pixel locations.
     See https://stackoverflow.com/a/383527/5087436
     """
-    rho1, theta1 = line1[0]
-    rho2, theta2 = line2[0]
+    rho1, theta1 = line1
+    rho2, theta2 = line2
     A = np.array([
         [np.cos(theta1), np.sin(theta1)],
         [np.cos(theta2), np.sin(theta2)]
     ])
     b = np.array([[rho1], [rho2]])
-    x0, y0 = np.linalg.solve(A, b)
-    x0, y0 = int(np.round(x0)), int(np.round(y0))
-    # TODO: make sure to return only those intersection points which fall within the image boundaries around the center
-    return [[x0, y0]]
+    print(A)
+    # make sure we are not dealing with a singular matrix
+    if not (A[0][0] * A[1][1] - A[0][1]*A[1][0] == 0):
+        x0, y0 = np.linalg.solve(A, b)
+        x0, y0 = int(np.round(x0)), int(np.round(y0))
+        # TODO: make sure to return only those intersection points which fall 
+        # within the image boundaries around the center
+        return [[x0, y0]]
+    else:
+        return [[0, 0]]
 
 
 def segmented_intersections(lines):
@@ -78,8 +84,20 @@ def segmented_intersections(lines):
             for line1 in group:
                 for line2 in next_group:
                     intersections.append(intersection(line1, line2))
-
     return intersections
+
+def segmented_intersections_v2(lines):
+    
+    intersections = []
+    for i in range(0, len(lines)):
+        line1 = lines[i]
+        for j in range(i + 1, len(lines)):
+            line2 = lines[j]
+            intersections.append(intersection(line1[0], line2[0]))
+    
+    return intersections
+            
+        
 
 '''
 cv::Point2f start, end;
@@ -103,8 +121,8 @@ def intersection(Point2f o1, Point2f p1, Point2f o2, Point2f p2, Point2f &r)
 '''
 
 
-
-image = cv2.imread("images/8.jpg")
+filename = "images/8.jpg"
+image = cv2.imread(filename)
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 res = imutils.resize(gray, width = 1000)
 
@@ -115,27 +133,32 @@ cv2.rectangle(mask, (0, cY - hdelta), (999, cY + hdelta), 255, -1)
 
 masked = cv2.bitwise_and(res, res, mask = mask)
 
-# load the image, convert it to grayscale, and blur it slightly
-gray = cv2.GaussianBlur(masked, (7, 7), 0)
+bilat = cv2.bilateralFilter(masked, 9, 41, 41)
 
-# perform edge detection, then perform a dilation + erosion to
-# close gaps in between object edges
-edged = cv2.Canny(gray, 50, 100)
-edged = cv2.dilate(edged, None, iterations=1)
-edged = cv2.erode(edged, None, iterations=1)
+kernelH = cv2.getStructuringElement(cv2.MORPH_RECT, (25,1))
+horizontal_img = cv2.erode(bilat, kernelH, iterations=1)
+horizontal_img = cv2.dilate(horizontal_img, kernelH, iterations=1)
 
-# find contours in the edge map
-img, cnts, hierarchy = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-#cnts = cnts[0] if imutils.is_cv2() else cnts[1]
+gradX = cv2.Sobel(horizontal_img, ddepth=cv2.CV_32F, dx=1, dy=0, ksize=-1)
+gradX = np.absolute(gradX)
+(minVal, maxVal) = (np.min(gradX), np.max(gradX))
+gradX = (255 * ((gradX - minVal) / (maxVal - minVal))).astype("uint8")
+cv2.imwrite("x-sobel.jpg", gradX)
 
-final = imutils.hough_lines(img, backgroundImage = "images/8.jpg", threshold = 150)
+# Hough lines =================================================================
+image = cv2.imread("x-sobel.jpg")
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+# original threshold 200
+final, lines = imutils.hough_lines(gray, backgroundImage = filename, threshold = 200)
+
+intersections = segmented_intersections_v2(lines)
 
 cv2.imshow("masked", final)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 '''
-For Savitzky-Golay smoothing, one has to first install scipy and scipy.signal.
+For Savitzky-Golay smoothing, first need to install scipy and scipy.signal.
 The code is as follows (output image also shown):
 from scipy.signal import savgol_filter
 ...
