@@ -2,5 +2,8 @@
 BookSpine/__pycache__
 BookSpine/ZoneMaintenance-master/*
 
+chatbot_for_cloudstrap/__pycache__
+chatbot_for_cloudstrap/weights
+
 haar_cascade_training/info/*
 haar_cascade_training/negative_images/*
