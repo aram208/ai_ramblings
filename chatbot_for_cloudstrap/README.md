@@ -3,7 +3,18 @@
 1. $ clone ...
 2. $ cd into chatbot_for_cloudstrap
 3. $ docker-compose up
-4. Download the weights archive and unzip in the 'weights' folder
+4. $ mkdir weights
+4. Download the weights archive and unzip in the 'weights' folder created in the previous step.
+
+The folder should look like this
+<br>chatbot_for_cloudstrap<br>
+ &nbsp;-&nbsp;app_chatbot.py<br>
+ &nbsp;-&nbsp;... other files<br>
+ &nbsp;-&nbsp;weights/checkpoint<br>
+ &nbsp;-&nbsp;weights/seq2seq_model.ckpt-43000.data-00000-of-00001<br>
+ &nbsp;-&nbsp;weights/seq2seq_model.index<br>
+ &nbsp;-&nbsp;weights/seq2seq_model.meta<br>
+  
 
 ### Testing
 
