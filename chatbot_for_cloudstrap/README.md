@@ -4,7 +4,7 @@
 2. $ cd into chatbot_for_cloudstrap
 3. $ docker-compose up
 4. $ mkdir weights
-4. Download the weights archive and unzip in the 'weights' folder created in the previous step.
+4. Download the weights archive and unzip in the `weights` folder created in the previous step.
 
 The folder should look like this:
 
@@ -25,3 +25,9 @@ $ curl localhost:5000?question=hi%20there
 {
     "response": "good to see you"
 }
+
+## To launch as errbot plugin
+
+The plugin files are in the `errbot-root` subfolder of this repo.
+Everything is the same except for some path variable differences.
+Don't forget to include the weights in the `/plugins/hipchap/weights` folder
