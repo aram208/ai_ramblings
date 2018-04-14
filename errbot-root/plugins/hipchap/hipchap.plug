@@ -1,0 +1,13 @@
+[Core]
+module = hipchap
+name = HipChap
+
+[Documentation]
+description = Custom ChatBot plugin for HipChat
+
+[Python]
+version = 3
+
+[Errbot]
+min = 5.1.3
+
