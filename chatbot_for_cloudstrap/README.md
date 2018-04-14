@@ -6,8 +6,9 @@
 4. $ mkdir weights
 4. Download the weights archive and unzip in the 'weights' folder created in the previous step.
 
-The folder should look like this
-<br>chatbot_for_cloudstrap<br>
+The folder should look like this:
+
+<br>chatbot_for_cloudstrap/<br>
  &nbsp;-&nbsp;app_chatbot.py<br>
  &nbsp;-&nbsp;... other files<br>
  &nbsp;-&nbsp;weights/checkpoint<br>
