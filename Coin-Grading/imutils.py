@@ -144,8 +144,21 @@ def lines_cross():
     r = o1 + d1 * t1;
     return true;
 '''    
+
+def apply_ring_mask(image, radius_inner = 900, radius_outer = 1000):
     
+    # find the center of the image
+    (cX, cY) = (image.shape[1] // 2, image.shape[0] // 2)
     
+    mask_outer = np.zeros(image.shape[:2], dtype="uint8")
+    cv2.circle(mask_outer, (cX, cY), radius_outer, 255, -1) 
     
+    mask_inner = np.ones(image.shape[:2], dtype="uint8")
+    cv2.circle(mask_inner, (cX, cY), radius_inner, 255, -1) 
     
+    ring_mask = cv2.bitwise_xor(mask_outer, mask_inner)
+    
+    masked = cv2.bitwise_and(image, image, mask = ring_mask)
+    
+    return masked
     

@@ -340,11 +340,10 @@ for i in range(1, 6):
     
     fig.add_subplot(131)
     plt.title('Hue (Obverse)')
-    plt.plot(hist_o_h[file69_o], 'g')
+    plt.plot(hist_o_h[file69_o], 'g', label = 'somelabel')
     plt.plot(hist_o_h[file70_o], 'b')
     
     fig.add_subplot(132)
-    plt.text(str(i))
     plt.title('Saturation (Obverse)')
     plt.plot(hist_o_s[file69_o], 'g')
     plt.plot(hist_o_s[file70_o], 'b')
